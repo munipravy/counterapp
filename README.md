@@ -52,3 +52,17 @@ helm install
 10) Implement sticky session for the api so requests will always go to the same pod during blue green traffic shift
 
 11) Update the read me files to explain how to use the script
+
+
+
+Instructions to run
+
+1.I have created two deployment scripts under templates directory blue.yml and green.yml
+2.I have used selectors and labels for switching blue/green deployments 
+3.# sh run-app.sh to use helm tool to configure the application
+4.# sh run-kube.sh to use kubectl commnds to perform expected tasks
+
+To perform blue/green deployment 
+Please switch to helm/counterapp/template/service.yml. And change version number to 1.1
+
+
