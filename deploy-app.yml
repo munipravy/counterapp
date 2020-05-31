@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  labels:
+    app: app
+spec:
+  replicas: 1
+  minReadySeconds: 10
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: app
+          image: "gcr.io/cloudopsplatform/app:11"
+          env:
+            - name: JAVA_OPTS
+              value: "-Xms512m -Xmx1024m -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.port=5000 -Dcom.sun.management.jmxremote.rmi.port=5000 -Djava.rmi.server.hostname=127.0.0.1"
+          resources:
+            limits:
+              memory: "2048Mi"
+              cpu: "300m"
+          ports:
+            - containerPort: 8080
+              name: application
+            - containerPort: 5000
+              name: jmx
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            failureThreshold: 3
+            initialDelaySeconds: 480
+            periodSeconds: 5
+            timeoutSeconds: 2
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 480
+            periodSeconds: 10

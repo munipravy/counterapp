@@ -1,2 +1,2 @@
-# counterapp
-Counter app - Deployed on Kubernetes cluster and designed blue and green deployment
+# ARC-Gateway
+ ARC Gateway has been build on Spring Boot Cloud API Gateway
