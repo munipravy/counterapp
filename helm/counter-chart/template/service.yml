@@ -11,5 +11,5 @@ spec:
       targetPort: 8080
   selector: 
     name: 
-    version: "1.10"
+    version: "1.0"
   type: LoadBalancer
