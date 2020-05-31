@@ -1,0 +1,6 @@
+apiVersion: v2
+name: counterapp
+appVersion: "1.0"
+description: A helm chart for counterapp 1.0
+version: 0.1.0
+type: application
