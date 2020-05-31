@@ -33,7 +33,7 @@ public class CounterController {
     @GetMapping("/info")
     public String info() {
         StringBuilder sb = new StringBuilder();
-        sb.append("git commit hash: ").append("hashcode").append(System.getProperty("line.separator"));
+        sb.append("git commit hash: ").append("adedc1c").append(System.getProperty("line.separator"));
         sb.append("branch name of the source code: ").append("master").append(System.getProperty("line.separator"));
         sb.append("environment name of the app: ").append(env.getProperty("app.name")).append(System.getProperty("line.separator"));
         sb.append("hostname: ").append("localhost:8080").append(System.getProperty("line.separator"));
