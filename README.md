@@ -67,6 +67,10 @@ Instructions to run
 
 To perform blue/green deployment 
 
-Please switch to helm/counterapp/template/service.yml. And change version number to 1.1
+a.Please switch to helm/counterapp/template/service.yml. And change version number to 1.1
+
+b.For this deployment I have used Kubernetes cluster with 3vcpus and 11 GB ram.
+
+c.Used Ingress as Gate way to route traffic instead Haproxy
 
 
