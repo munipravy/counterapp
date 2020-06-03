@@ -10,6 +10,6 @@ spec:
       port: 80
       targetPort: 8080
   selector: 
-    name: 
+    name: app
     version: "1.0"
   type: LoadBalancer
