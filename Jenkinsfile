@@ -54,14 +54,14 @@ pipeline {
         }
 
         stage('Update Deployment Configuration') {
-            steps {
+            steps {                
                 script {
-                    // Define the tag with the build number
-                    def tag = "${BUILD_NUMBER}"
-
-                    // Replace the image tag in the deployment YAML file
-                    sh "sed -i 's/image: countertop/image:counterapp:${tag}/g' ${DEPLOYMENT_FILE}"
-                }
+                    // Define the new image tag, ensure proper indentation
+                    def newImageTag = "        image: ${DOCKER_REGISTRY}/counterapp:${BUILD_NUMBER}"  // Adjust indentation as needed
+        
+                    // Use sed to replace the existing image line while preserving formatting
+                    sh "sed -i 's|^\\s*image:.*|${newImageTag}|g' ${DEPLOYMENT_FILE}"
+                } 
             }
         }
 
