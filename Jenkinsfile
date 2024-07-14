@@ -27,7 +27,7 @@ pipeline {
             steps {
                 script {
                     // Run Maven build
-                    sh 'cd /var/lib/jenkins/workspace/counterapp-pipeline && mvn clean install'
+                    sh 'mvn clean install'
                 }
             }
         }
@@ -35,6 +35,8 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
+                    // List the target directory to verify .jar file exists
+                    sh 'ls -la target/'
                     // Build Docker image
                     sh "docker build -t counterapp:${BUILD_NUMBER} ."
                 }
@@ -52,19 +54,19 @@ pipeline {
                 }
             }
         }
-
+           
         stage('Update Deployment Configuration') {
-            steps {                
+            steps {
                 script {
                     // Define the new image tag, ensure proper indentation
                     def newImageTag = "        image: ${DOCKER_REGISTRY}/counterapp:${BUILD_NUMBER}"  // Adjust indentation as needed
         
                     // Use sed to replace the existing image line while preserving formatting
                     sh "sed -i 's|^\\s*image:.*|${newImageTag}|g' ${DEPLOYMENT_FILE}"
-                } 
+                }                
             }
         }
-
+        
         stage('Deploy to Kubernetes') {
             steps {
                 script {
@@ -84,3 +86,4 @@ pipeline {
         }
     }
 }
+
