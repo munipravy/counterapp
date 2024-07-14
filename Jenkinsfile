@@ -8,25 +8,39 @@ pipeline {
     }
 
     stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    // Clean the workspace
+                    cleanWs()
+                    // Checkout the code from the specified repository
+                    checkout scm: [
+                        $class: 'GitSCM', 
+                        branches: [[name: '*/master']], // Change 'master' to your desired branch if needed
+                        userRemoteConfigs: [[url: 'https://github.com/munipravy/counterapp.git']]
+                    ]
+                }
+            }
+        }
+
         stage('Build') {
             steps {
                 script {
                     // Run Maven build
-                    sh 'mvn clean install'
+                    sh 'cd /var/lib/jenkins/workspace/counterapp-pipeline && mvn clean install'
                 }
             }
         }
+
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Navigate to the workspace directory
-                    sh 'cd /var/lib/jenkins/workspace/countertop-freestyle'
-                    
                     // Build Docker image
                     sh "docker build -t counterapp:${BUILD_NUMBER} ."
                 }
             }
         }
+
         stage('Tag and Push Docker Image') {
             steps {
                 script {
@@ -38,17 +52,19 @@ pipeline {
                 }
             }
         }
-        stage('Update Deployment Configuration') {
-            steps {
-                script {
-                    // Define the tag with the build number
-                    def tag = "${BUILD_NUMBER}"
 
-                    // Replace the image tag in the deployment YAML file
-                    sh "sed -i 's/image: countertop/image:counterapp:${tag}/g' ${DEPLOYMENT_FILE}"
-                }
+        stage('Update Deployment Configuration') {
+            steps {                
+                script {
+                    // Define the new image tag, ensure proper indentation
+                    def newImageTag = "        image: ${DOCKER_REGISTRY}/counterapp:${BUILD_NUMBER}"  // Adjust indentation as needed
+        
+                    // Use sed to replace the existing image line while preserving formatting
+                    sh "sed -i 's|^\\s*image:.*|${newImageTag}|g' ${DEPLOYMENT_FILE}"
+                } 
             }
         }
+
         stage('Deploy to Kubernetes') {
             steps {
                 script {
