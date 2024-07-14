@@ -27,7 +27,7 @@ pipeline {
             steps {
                 script {
                     // Run Maven build
-                    sh 'cd /var/lib/jenkins/workspace/counterapp-pipeline && mvn clean install'
+                    sh 'mvn clean install'
                 }
             }
         }
