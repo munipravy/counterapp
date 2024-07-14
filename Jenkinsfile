@@ -35,6 +35,8 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
+                    // List the target directory to verify .jar file exists
+                    sh 'ls -la target/'
                     // Build Docker image
                     sh "docker build -t counterapp:${BUILD_NUMBER} ."
                 }
