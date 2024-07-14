@@ -23,11 +23,12 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Build and Test') {
             steps {
                 script {
-                    // Run Maven build
                     sh 'mvn clean install'
+                    echo "Here we have included unit test cases"
+                    sh 'mvn test'
                 }
             }
         }
