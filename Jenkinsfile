@@ -52,19 +52,19 @@ pipeline {
                 }
             }
         }
-
+           
         stage('Update Deployment Configuration') {
-            steps {                
+            steps {
                 script {
                     // Define the new image tag, ensure proper indentation
                     def newImageTag = "        image: ${DOCKER_REGISTRY}/counterapp:${BUILD_NUMBER}"  // Adjust indentation as needed
         
                     // Use sed to replace the existing image line while preserving formatting
                     sh "sed -i 's|^\\s*image:.*|${newImageTag}|g' ${DEPLOYMENT_FILE}"
-                } 
+                }                
             }
         }
-
+        
         stage('Deploy to Kubernetes') {
             steps {
                 script {
@@ -84,3 +84,4 @@ pipeline {
         }
     }
 }
+
