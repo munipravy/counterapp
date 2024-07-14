@@ -14,4 +14,4 @@ kubectl apply -f helm/counter-chart/template/Ingress-controller.yml
 
 kubectl apply -f helm/counter-chart/template/ingress.yml
 
-
+.
